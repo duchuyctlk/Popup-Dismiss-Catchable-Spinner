@@ -12,4 +12,4 @@ Copy com.duchuyctlk.popupdismisscatchablespinner.widget.PopupDismissCatchableSpi
 
 In layout files, use "com.duchuyctlk.popupdismisscatchablespinner.widget.PopupDismissCatchableSpinner" instead of Spinner widget.
 
-Implement PopupDismissListener interface and you are be able to catch Spinner show/dismiss events
+Implement PopupDismissListener interface, call PopupDismissCatchableSpinner.setOnPopupDismissListener(PopupDismissListener listener) and you are able to catch show/dismiss events
