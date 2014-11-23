@@ -54,7 +54,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
     			return;
     		}
 
-    		// grant access to Spinner.mPopup 
+    		// disable access checks to Spinner.mPopup 
 			mSpinnerPopup.setAccessible(true);
 			
 			// get Spinner.DropdownPopup class name
@@ -66,6 +66,9 @@ public class PopupDismissCatchableSpinner extends Spinner {
     		} else {    			
     			// we set onDismissListener to dialog popup in performClick
     		}
+
+    		// disable access checks to Spinner.mPopup 
+			mSpinnerPopup.setAccessible(false);
     	} catch (Exception ex) {
     		ex.printStackTrace();
     	}
@@ -85,34 +88,47 @@ public class PopupDismissCatchableSpinner extends Spinner {
     			return result;
     		}
 
-    		// grant access to Spinner.mPopup 
+    		// disable access checks to Spinner.mPopup 
 			mSpinnerPopup.setAccessible(true);
 			
 			// get Spinner.DropdownPopup class name
 			String mSpinnerPopupClassName = mSpinnerPopup.get(this).getClass().getSimpleName();
+
+			// reflecting SpinnerPopup.isShowing()
+			Method mIsShowing = mSpinnerPopup.getType()
+					.getDeclaredMethod("isShowing", new Class[] {});
 			
-			// check if mSpinnerPopup is a dialog popup
-			if ("DialogPopup".equals(mSpinnerPopupClassName)) {
-				// reflecting DialogPopup.isShowing()
-				Method mIsShowing = mSpinnerPopup.get(this).getClass()
-						.getDeclaredMethod("isShowing", new Class[] {});
+			// calling Spinner.mPopup.isShowing()
+			boolean mIsShowingResult = (Boolean) mIsShowing.invoke(mSpinnerPopup.get(this), new Object[] {});
+			
+			if (mIsShowingResult) {
+				// make listener handle onShow event
+				if (mPopupDismissListener != null) {
+					mPopupDismissListener.onShow();
+				}
 				
-				// calling Spinner.mPopup.isShowing()
-				boolean mIsShowingResult = (Boolean) mIsShowing.invoke(mSpinnerPopup.get(this), new Object[] {});
-				
-				if (mIsShowingResult) {
+				// check if mSpinnerPopup is a dialog popup
+				if ("DialogPopup".equals(mSpinnerPopupClassName)) {
 					// reflecting DialogPopup.mPopup
 					Field mAlertDialog = mSpinnerPopup.get(this).getClass().getDeclaredField("mPopup");
 					
-					// grant access to Spinner.mPopup.mPopup
+					// disable access checks to Spinner.mPopup.mPopup
 					mAlertDialog.setAccessible(true);
 					
+					// set onDismissListener
 					((AlertDialog) mAlertDialog.get(mSpinnerPopup.get(this))).setOnDismissListener(mPopupDismissListener);
+					
+					// enable access checks to Spinner.mPopup.mPopup
+					mAlertDialog.setAccessible(false);
 				}
 			}
+
+    		// enable access checks to Spinner.mPopup 
+			mSpinnerPopup.setAccessible(false);
     	} catch (Exception ex) {
     		ex.printStackTrace();
     	}
+    	
     	return result;
     }
 }

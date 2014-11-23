@@ -12,8 +12,10 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements PopupDismissListener {
 
 	private TextView txtDismissCount;
-	private PopupDismissCatchableSpinner spinner;
+	private TextView txtOpenCount;
+	private PopupDismissCatchableSpinner spinner1;
 	private int dismissCount;
+	private int openCount;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +23,13 @@ public class MainActivity extends Activity implements PopupDismissListener {
 		setContentView(R.layout.activity_main);
 		
 		txtDismissCount = (TextView) findViewById(R.id.txt_count_dismiss);
-		spinner = (PopupDismissCatchableSpinner) findViewById(R.id.spinner1);
-		spinner.setOnPopupDismissListener(this);
+		txtOpenCount = (TextView) findViewById(R.id.txt_count_open);
+		
+		spinner1 = (PopupDismissCatchableSpinner) findViewById(R.id.spinner1);
+		spinner1.setOnPopupDismissListener(this);		
+		
 		dismissCount = 0;
+		openCount = 0;
 	}
 
 	@Override
@@ -47,8 +53,8 @@ public class MainActivity extends Activity implements PopupDismissListener {
 
 	@Override
 	public void onShow() {
-		// TODO Auto-generated method stub
-		
+		openCount ++;
+		txtOpenCount.setText(String.valueOf(openCount));
 	}
 
 	private void handlePopupDismissEvent() {
