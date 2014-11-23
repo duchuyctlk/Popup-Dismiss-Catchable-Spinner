@@ -21,74 +21,74 @@ public class PopupDismissCatchableSpinner extends Spinner {
 	
 	private PopupDismissListener mPopupDismissListener = null;
 	
-    public PopupDismissCatchableSpinner(Context context) {
-        super(context);
-    }
+	public PopupDismissCatchableSpinner(Context context) {
+		super(context);
+	}
 
-    public PopupDismissCatchableSpinner(Context context, int mode) {
-        super(context, mode);
-    }
+	public PopupDismissCatchableSpinner(Context context, int mode) {
+		super(context, mode);
+	}
 
-    public PopupDismissCatchableSpinner(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+	public PopupDismissCatchableSpinner(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
 
-    public PopupDismissCatchableSpinner(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
+	public PopupDismissCatchableSpinner(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+	}
 
-    public PopupDismissCatchableSpinner(Context context, AttributeSet attrs, int defStyle, int mode) {
-        super(context, attrs, defStyle, mode);
-    }
-    
-    public void setOnPopupDismissListener(PopupDismissListener listener) {
-    	mPopupDismissListener = listener;
-    	
-    	try {
-    		// reflecting Spinner.mPopup field
-    		if (mSpinnerPopup == null) {
-    			mSpinnerPopup = this.getClass().getSuperclass().getDeclaredField("mPopup");
-    		}
-    		
-    		if (mSpinnerPopup == null) {
-    			return;
-    		}
+	public PopupDismissCatchableSpinner(Context context, AttributeSet attrs, int defStyle, int mode) {
+		super(context, attrs, defStyle, mode);
+	}
+	
+	public void setOnPopupDismissListener(PopupDismissListener listener) {
+		mPopupDismissListener = listener;
 
-    		// disable access checks to Spinner.mPopup 
+		try {
+			// reflecting Spinner.mPopup field
+			if (mSpinnerPopup == null) {
+				mSpinnerPopup = this.getClass().getSuperclass().getDeclaredField("mPopup");
+			}
+
+			if (mSpinnerPopup == null) {
+				return;
+			}
+			
+			// disable access checks to Spinner.mPopup 
 			mSpinnerPopup.setAccessible(true);
 			
 			// get Spinner.DropdownPopup class name
 			String mSpinnerPopupClassName = mSpinnerPopup.get(this).getClass().getSimpleName();
 						
-    		// check if mSpinnerPopup is a drop down popup 
-    		if ("DropdownPopup".equals(mSpinnerPopupClassName)) {
-    			((ListPopupWindow) mSpinnerPopup.get(this)).setOnDismissListener(mPopupDismissListener);
-    		} else {    			
-    			// we set onDismissListener to dialog popup in performClick
-    		}
+			// check if mSpinnerPopup is a drop down popup 
+			if ("DropdownPopup".equals(mSpinnerPopupClassName)) {
+				((ListPopupWindow) mSpinnerPopup.get(this)).setOnDismissListener(mPopupDismissListener);
+			} else {				
+				// we set onDismissListener to dialog popup in performClick
+			}
 
-    		// disable access checks to Spinner.mPopup 
+			// disable access checks to Spinner.mPopup 
 			mSpinnerPopup.setAccessible(false);
-    	} catch (Exception ex) {
-    		ex.printStackTrace();
-    	}
-    }
-    
-    @Override
-    public boolean performClick() {
-    	boolean result = super.performClick();
-    	
-    	try {
-    		// reflecting Spinner.mPopup field
-    		if (mSpinnerPopup == null) {
-    			mSpinnerPopup = this.getClass().getSuperclass().getDeclaredField("mPopup");
-    		}
-    		
-    		if (mSpinnerPopup == null) {
-    			return result;
-    		}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	@Override
+	public boolean performClick() {
+		boolean result = super.performClick();
+		
+		try {
+			// reflecting Spinner.mPopup field
+			if (mSpinnerPopup == null) {
+				mSpinnerPopup = this.getClass().getSuperclass().getDeclaredField("mPopup");
+			}
+			
+			if (mSpinnerPopup == null) {
+				return result;
+			}
 
-    		// disable access checks to Spinner.mPopup 
+			// disable access checks to Spinner.mPopup 
 			mSpinnerPopup.setAccessible(true);
 			
 			// get Spinner.DropdownPopup class name
@@ -123,13 +123,13 @@ public class PopupDismissCatchableSpinner extends Spinner {
 				}
 			}
 
-    		// enable access checks to Spinner.mPopup 
+			// enable access checks to Spinner.mPopup 
 			mSpinnerPopup.setAccessible(false);
-    	} catch (Exception ex) {
-    		ex.printStackTrace();
-    	}
-    	
-    	return result;
-    }
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return result;
+	}
 }
 
