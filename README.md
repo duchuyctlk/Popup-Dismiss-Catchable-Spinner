@@ -28,24 +28,7 @@ Implement PopupDismissListener interface.
 
 ```java
 public class MainActivity extends Activity implements PopupDismissListener {
-  // TODO override interface's methods
-}
-```
-
-Call PopupDismissCatchableSpinner.setOnPopupDismissListener(PopupDismissListener listener) and you are able to catch show/dismiss events
-
-```java
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		
-		// ...
-		spinner1 = (PopupDismissCatchableSpinner) findViewById(R.id.spinner1);
-		spinner1.setOnPopupDismissListener(this);		
-		// ...
-	}
-	
+	// TODO override interface's methods
 	@Override
 	public void onDismiss() {
 		// case drop down popup
@@ -65,5 +48,21 @@ Call PopupDismissCatchableSpinner.setOnPopupDismissListener(PopupDismissListener
 
 	private void handlePopupDismissEvent() {
 		// TODO you could process drop down case and dialog case seperately if needed
+	}
+}
+```
+
+Call PopupDismissCatchableSpinner.setOnPopupDismissListener(PopupDismissListener listener) and you are able to catch show/dismiss events
+
+```java
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		
+		// ...
+		spinner1 = (PopupDismissCatchableSpinner) findViewById(R.id.spinner1);
+		spinner1.setOnPopupDismissListener(this);		
+		// ...
 	}
 ```
