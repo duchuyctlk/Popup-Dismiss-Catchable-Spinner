@@ -157,7 +157,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
                     fieldPopupWindow.setAccessible(true);
 
                     // reflecting Spinner.mPopup.mPopup.OnDismissListener
-                    Field fieldOnDismissListener = PopupWindow.class.getDeclaredField("mOnDismissListener");
+                    Field fieldOnDismissListener = PopupWindow.class.getDeclaredField(Constant.ON_DISMISS_LISTENER);
                     fieldOnDismissListener.setAccessible(true);
 
                     // get the default listener and set into the custom listener
