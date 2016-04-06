@@ -41,18 +41,13 @@ public class MainActivity extends Activity implements PopupDismissListener {
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        // case dialog popup
-        handlePopupDismissEvent();
+        mDismissCount++;
+        tvDismissCount.setText(String.valueOf(mDismissCount));
     }
 
     @Override
     public void onShow() {
         mOpenCount++;
         tvOpenCount.setText(String.valueOf(mOpenCount));
-    }
-
-    private void handlePopupDismissEvent() {
-        mDismissCount++;
-        tvDismissCount.setText(String.valueOf(mDismissCount));
     }
 }
