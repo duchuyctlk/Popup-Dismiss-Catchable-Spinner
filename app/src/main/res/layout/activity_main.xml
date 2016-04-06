@@ -23,7 +23,7 @@
             android:text="@string/close_count" />
 
         <TextView
-            android:id="@+id/txt_count_dismiss"
+            android:id="@+id/tv_count_dismiss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_label_close"
@@ -35,7 +35,7 @@
             android:id="@+id/spinner_countries"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txt_count_dismiss"
+            android:layout_below="@id/tv_count_dismiss"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:entries="@array/country_arrays"
@@ -56,7 +56,7 @@
             android:text="@string/open_count" />
 
         <TextView
-            android:id="@+id/txt_count_open"
+            android:id="@+id/tv_count_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_label_open"
