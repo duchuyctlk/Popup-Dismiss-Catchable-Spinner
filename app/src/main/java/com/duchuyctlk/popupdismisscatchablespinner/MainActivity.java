@@ -11,48 +11,43 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements PopupDismissListener {
 
-	private TextView txtDismissCount;
-	private TextView txtOpenCount;
-	private PopupDismissCatchableSpinner spinnerCountries;
-	private int dismissCount;
-	private int openCount;
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		
-		txtDismissCount = (TextView) findViewById(R.id.txt_count_dismiss);
-		txtOpenCount = (TextView) findViewById(R.id.txt_count_open);
-		
-		spinnerCountries = (PopupDismissCatchableSpinner) findViewById(R.id.spinner_countries);
-		spinnerCountries.setOnPopupDismissListener(this);
-		
-		dismissCount = 0;
-		openCount = 0;
-	}
+    private TextView tvDismissCount;
+    private TextView tvOpenCount;
+    private int mDismissCount;
+    private int mOpenCount;
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-	@Override
-	public void onDismiss(DialogInterface dialog) {
-		// case dialog popup
-		handlePopupDismissEvent();
-	}
+        tvDismissCount = (TextView) findViewById(R.id.tv_count_dismiss);
+        tvOpenCount = (TextView) findViewById(R.id.tv_count_open);
 
-	@Override
-	public void onShow() {
-		openCount ++;
-		txtOpenCount.setText(String.valueOf(openCount));
-	}
+        PopupDismissCatchableSpinner spinnerCountries = (PopupDismissCatchableSpinner)
+                findViewById(R.id.spinner_countries);
+        spinnerCountries.setOnPopupDismissListener(this);
 
-	private void handlePopupDismissEvent() {
-		dismissCount ++;
-		txtDismissCount.setText(String.valueOf(dismissCount));
-	}
+        mDismissCount = 0;
+        mOpenCount = 0;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        mDismissCount++;
+        tvDismissCount.setText(String.valueOf(mDismissCount));
+    }
+
+    @Override
+    public void onShow() {
+        mOpenCount++;
+        tvOpenCount.setText(String.valueOf(mOpenCount));
+    }
 }

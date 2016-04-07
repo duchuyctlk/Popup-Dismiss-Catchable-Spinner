@@ -30,14 +30,7 @@ Implement PopupDismissListener interface.
 public class MainActivity extends Activity implements PopupDismissListener {
 	// TODO override interface's methods
 	@Override
-	public void onDismiss() {
-		// case drop down popup
-		handlePopupDismissEvent();
-	}
-
-	@Override
 	public void onDismiss(DialogInterface dialog) {
-		// case dialog popup
 		handlePopupDismissEvent();
 	}
 
