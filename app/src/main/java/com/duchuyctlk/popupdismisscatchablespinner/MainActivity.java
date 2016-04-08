@@ -24,9 +24,13 @@ public class MainActivity extends Activity implements PopupDismissListener {
         tvDismissCount = (TextView) findViewById(R.id.tv_count_dismiss);
         tvOpenCount = (TextView) findViewById(R.id.tv_count_open);
 
-        PopupDismissCatchableSpinner spinnerCountries = (PopupDismissCatchableSpinner)
-                findViewById(R.id.spinner_countries);
-        spinnerCountries.setOnPopupDismissListener(this);
+        PopupDismissCatchableSpinner spinnerDropdown = (PopupDismissCatchableSpinner)
+                findViewById(R.id.spinner_dropdown);
+        spinnerDropdown.setOnPopupDismissListener(this);
+
+        PopupDismissCatchableSpinner spinnerDialog = (PopupDismissCatchableSpinner)
+                findViewById(R.id.spinner_dialog);
+        spinnerDialog.setOnPopupDismissListener(this);
 
         mDismissCount = 0;
         mOpenCount = 0;

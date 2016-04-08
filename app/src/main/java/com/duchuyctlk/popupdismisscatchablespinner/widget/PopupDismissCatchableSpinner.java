@@ -1,6 +1,7 @@
 package com.duchuyctlk.popupdismisscatchablespinner.widget;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import android.app.AlertDialog;
@@ -58,47 +59,12 @@ public class PopupDismissCatchableSpinner extends Spinner {
     private Field mFieldSpinnerPopup = null;
     private InternalListener mInternalListener = new InternalListener();
 
-    public PopupDismissCatchableSpinner(Context context) {
-        super(context);
-    }
-
     public PopupDismissCatchableSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public PopupDismissCatchableSpinner(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-    }
-
     public void setOnPopupDismissListener(PopupDismissListener listener) {
         mInternalListener.setListener(listener);
-
-        try {
-            // reflecting Spinner.mPopup field
-            if (mFieldSpinnerPopup == null) {
-                mFieldSpinnerPopup = this.getClass().getSuperclass().getDeclaredField(Constant.M_POPUP);
-            }
-
-            if (mFieldSpinnerPopup == null) {
-                return;
-            }
-
-            // disable access checks to Spinner.mPopup
-            mFieldSpinnerPopup.setAccessible(true);
-
-            // get Spinner.DropdownPopup class name
-            String mSpinnerPopupClassName = mFieldSpinnerPopup.get(this).getClass().getSimpleName();
-
-            // check if mFieldSpinnerPopup is a drop down popup
-            if (Constant.DROPDOWN_POPUP.equals(mSpinnerPopupClassName)) {
-                ((ListPopupWindow) mFieldSpinnerPopup.get(this)).setOnDismissListener(mInternalListener);
-            }
-
-            // disable access checks to Spinner.mPopup
-            mFieldSpinnerPopup.setAccessible(false);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 
     @Override
@@ -111,18 +77,11 @@ public class PopupDismissCatchableSpinner extends Spinner {
                 mFieldSpinnerPopup = this.getClass().getSuperclass().getDeclaredField(Constant.M_POPUP);
             }
 
-            if (mFieldSpinnerPopup == null) {
-                return result;
-            }
-
             // disable access checks to Spinner.mPopup
             mFieldSpinnerPopup.setAccessible(true);
 
             // get value of mPopup field
             Object spinnerPopup = mFieldSpinnerPopup.get(this);
-            if (spinnerPopup == null) {
-                return result;
-            }
 
             // get Spinner.DropdownPopup class name
             String spinnerPopupClassName = spinnerPopup.getClass().getSimpleName();
@@ -132,7 +91,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
                     .getDeclaredMethod(Constant.IS_SHOWING, new Class[]{});
 
             // calling Spinner.mPopup.isShowing()
-            boolean isShowingResult = (Boolean) isShowing.invoke(spinnerPopup, new Object[]{});
+            boolean isShowingResult = (boolean) isShowing.invoke(spinnerPopup, new Object[]{});
 
             if (isShowingResult) {
                 // make listener handle onShow event
@@ -172,15 +131,13 @@ public class PopupDismissCatchableSpinner extends Spinner {
                     fieldPopupWindow.setAccessible(false);
                 }
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        } finally {
-            if (mFieldSpinnerPopup != null) {
-                // enable access checks to Spinner.mPopup
-                mFieldSpinnerPopup.setAccessible(false);
-            }
-        }
 
+            // enable access checks to Spinner.mPopup
+            mFieldSpinnerPopup.setAccessible(false);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         return result;
     }
 }
