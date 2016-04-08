@@ -3,7 +3,9 @@ package com.duchuyctlk;
 import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.widget.Spinner;
 
+import com.duchuyctlk.helpers.matchers.CustomMatchers;
 import com.duchuyctlk.popupdismisscatchablespinner.R;
 
 import org.junit.Rule;
@@ -39,6 +41,12 @@ public class MainActivityTest {
     public void clickSpinnerDropdown() {
         clickOnSpinner(R.id.spinner_dropdown, 1);
         clickOnSpinner(R.id.spinner_dialog, 2);
+    }
+
+    @Test
+    public void checkSpinnerMode() {
+        onView(withId(R.id.spinner_dialog)).check(matches(CustomMatchers.withSpinnerMode(Spinner.MODE_DIALOG)));
+        onView(withId(R.id.spinner_dropdown)).check(matches(CustomMatchers.withSpinnerMode(Spinner.MODE_DROPDOWN)));
     }
 
     private void clickOnSpinner(int spinnerId, int expectedValue) {

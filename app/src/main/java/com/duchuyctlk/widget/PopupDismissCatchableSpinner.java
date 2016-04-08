@@ -15,6 +15,12 @@ import com.duchuyctlk.Constant;
 
 public class PopupDismissCatchableSpinner extends Spinner {
 
+    private static final int MODE_UNKNOWN = -1;
+
+    /**
+     * Interface used to allow the creator of a <code>{@link Spinner}</code>
+     * to run some code when the Spinner's Popup is opened or dismissed.
+     */
     public interface PopupDismissListener {
         void onShow();
 
@@ -60,10 +66,22 @@ public class PopupDismissCatchableSpinner extends Spinner {
     private Field mFieldSpinnerPopup = null;
     private InternalListener mInternalListener = new InternalListener();
 
+    /**
+     * Construct a new spinner with the given context's theme and the supplied attribute set.
+     *
+     * @param context The Context the view is running in, through which it can
+     *                access the current theme, resources, etc.
+     * @param attrs   The attributes of the XML tag that is inflating the view.
+     */
     public PopupDismissCatchableSpinner(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
+    /**
+     * Set a listener to receive a callback when the popup is opened or dismissed.
+     *
+     * @param listener Listener that will be notified when the popup is opened or dismissed.
+     */
     public void setOnPopupDismissListener(PopupDismissListener listener) {
         mInternalListener.setListener(listener);
     }
@@ -84,22 +102,19 @@ public class PopupDismissCatchableSpinner extends Spinner {
             // get value of mPopup field
             Object spinnerPopup = mFieldSpinnerPopup.get(this);
 
-            // get Spinner.DropdownPopup class name
-            String spinnerPopupClassName = spinnerPopup.getClass().getSimpleName();
-
             // reflecting SpinnerPopup.isShowing()
             Method isShowing = mFieldSpinnerPopup.getType()
-                    .getDeclaredMethod(Constant.IS_SHOWING, new Class[]{});
+                    .getDeclaredMethod(Constant.IS_SHOWING, (Class[]) null);
 
             // calling Spinner.mPopup.isShowing()
-            boolean isShowingResult = (boolean) isShowing.invoke(spinnerPopup, new Object[]{});
+            boolean isShowingResult = (boolean) isShowing.invoke(spinnerPopup, (Object[]) null);
 
             if (isShowingResult) {
                 // make listener handle onShow event
                 mInternalListener.onShow();
 
                 // check if mFieldSpinnerPopup is a dialog popup
-                if (Constant.DIALOG_POPUP.equals(spinnerPopupClassName)) {
+                if (getSpinnerMode() == MODE_DIALOG) {
                     // reflecting DialogPopup.mPopup
                     Field fieldAlertDialog = spinnerPopup.getClass().getDeclaredField(Constant.M_POPUP);
 
@@ -111,7 +126,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
 
                     // enable access checks to Spinner.mPopup.mPopup
                     fieldAlertDialog.setAccessible(false);
-                } else if (Constant.DROPDOWN_POPUP.equals(spinnerPopupClassName)) {
+                } else if (getSpinnerMode() == MODE_DROPDOWN) {
                     // reflecting Spinner.mPopup.mPopup
                     Field fieldPopupWindow = ListPopupWindow.class.getDeclaredField(Constant.M_POPUP);
                     fieldPopupWindow.setAccessible(true);
@@ -139,6 +154,34 @@ public class PopupDismissCatchableSpinner extends Spinner {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+        return result;
+    }
+
+    /**
+     * Returns a constant describing how the user selects choices from the spinner.
+     *
+     * @return the choosing mode of this <code>{@link Spinner}</code>
+     */
+    public int getSpinnerMode() {
+        int result = MODE_UNKNOWN;
+
+        try {
+            // reflecting Spinner.mPopup field
+            if (mFieldSpinnerPopup == null) {
+                mFieldSpinnerPopup = this.getClass().getSuperclass().getDeclaredField(Constant.M_POPUP);
+            }
+
+            // get Spinner.DropdownPopup class name
+            mFieldSpinnerPopup.setAccessible(true);
+            String spinnerPopupClassName = mFieldSpinnerPopup.get(this).getClass().getSimpleName();
+            mFieldSpinnerPopup.setAccessible(false);
+
+            result = Constant.DIALOG_POPUP.equals(spinnerPopupClassName) ? MODE_DIALOG :
+                    (Constant.DROPDOWN_POPUP.equals(spinnerPopupClassName) ? MODE_DROPDOWN : MODE_UNKNOWN);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+
         return result;
     }
 }
