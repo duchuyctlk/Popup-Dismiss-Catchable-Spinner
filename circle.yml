@@ -1,6 +1,6 @@
 machine:
   environment:
-    APP_HOME : /home/ubuntu/PopupDismissCatchableSpinner/app
+    APP_HOME : /home/ubuntu/Popup-Dismiss-Catchable-Spinner/app
     ADB_INSTALL_TIMEOUT : 20
 test:
   override:
