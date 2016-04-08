@@ -1,0 +1,17 @@
+machine:
+  environment:
+    APP_HOME : /home/ubuntu/PopupDismissCatchableSpinner/app
+    ADB_INSTALL_TIMEOUT : 20
+dependencies:
+  pre:
+    - wget "https://services.gradle.org/distributions/gradle-2.8-bin.zip"; unzip gradle-2.8-bin.zip
+    - echo y | android update sdk --no-ui --all --filter tool,extra-android-m2repository,extra-android-support,extra-google-google_play_services,extra-google-m2repository,android-23
+    - echo y | android update sdk --no-ui --all --filter build-tools-23.0.2
+test:
+  override:
+    - emulator -avd circleci-android22 -netdelay none -netspeed full -no-audio:
+        background: true
+        parallel: true
+    - circle-android wait-for-boot
+    - ./gradlew jacocoTestReport -PdisablePreDex:
+        timeout: 2400
