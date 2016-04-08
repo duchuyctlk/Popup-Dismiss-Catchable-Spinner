@@ -1,6 +1,5 @@
 machine:
   environment:
-    APP_HOME : /home/ubuntu/Popup-Dismiss-Catchable-Spinner/app
     ADB_INSTALL_TIMEOUT : 20
 dependencies:
   pre:
