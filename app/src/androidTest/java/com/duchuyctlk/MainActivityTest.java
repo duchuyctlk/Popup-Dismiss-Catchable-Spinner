@@ -1,8 +1,10 @@
-package com.duchuyctlk.popupdismisscatchablespinner;
+package com.duchuyctlk;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+
+import com.duchuyctlk.popupdismisscatchablespinner.R;
 
 import org.junit.Rule;
 import org.junit.Test;

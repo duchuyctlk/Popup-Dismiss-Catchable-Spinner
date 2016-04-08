@@ -1,4 +1,4 @@
-package com.duchuyctlk.popupdismisscatchablespinner.widget;
+package com.duchuyctlk;
 
 public class Constant {
     public static final String M_POPUP = "mPopup";
