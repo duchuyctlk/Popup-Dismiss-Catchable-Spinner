@@ -2,6 +2,9 @@ machine:
   environment:
     APP_HOME : /home/ubuntu/Popup-Dismiss-Catchable-Spinner/app
     ADB_INSTALL_TIMEOUT : 20
+dependencies:
+  pre:
+    - wget "https://services.gradle.org/distributions/gradle-2.10-bin.zip"; unzip gradle-2.10-bin.zip
 test:
   override:
     # start the emulator
