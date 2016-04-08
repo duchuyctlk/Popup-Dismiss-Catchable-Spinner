@@ -8,15 +8,15 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
+    tools:context="com.duchuyctlk.MainActivity">
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_weight="1">
 
         <TextView
-            android:id="@+id/txt_label_close"
+            android:id="@+id/tv_label_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -26,13 +26,13 @@
             android:id="@+id/tv_count_dismiss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txt_label_close"
+            android:layout_below="@id/tv_label_close"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/number_0" />
 
-        <com.duchuyctlk.popupdismisscatchablespinner.widget.PopupDismissCatchableSpinner
-            android:id="@+id/spinner_countries"
+        <com.duchuyctlk.widget.PopupDismissCatchableSpinner
+            android:id="@+id/spinner_dropdown"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_count_dismiss"
@@ -46,10 +46,10 @@
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" >
+        android:layout_weight="1">
 
         <TextView
-            android:id="@+id/txt_label_open"
+            android:id="@+id/tv_label_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -59,10 +59,21 @@
             android:id="@+id/tv_count_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txt_label_open"
+            android:layout_below="@id/tv_label_open"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/number_0" />
+
+        <com.duchuyctlk.widget.PopupDismissCatchableSpinner
+            android:id="@+id/spinner_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_count_open"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:entries="@array/country_arrays"
+            android:prompt="@string/country_prompt"
+            android:spinnerMode="dialog" />
     </RelativeLayout>
 
 </LinearLayout>
