@@ -1,5 +1,6 @@
 machine:
   environment:
+    PATH: "~/$CIRCLE_PROJECT_REPONAME/gradle-2.10/bin:$PATH"
     ADB_INSTALL_TIMEOUT : 20
 dependencies:
   pre:
