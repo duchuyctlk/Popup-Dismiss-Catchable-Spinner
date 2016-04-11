@@ -1,5 +1,6 @@
 machine:
   environment:
+    APP_HOME: /home/ubuntu/Popup-Dismiss-Catchable-Spinner/app
     PATH: "~/$CIRCLE_PROJECT_REPONAME/gradle-2.10/bin:$PATH"
     ADB_INSTALL_TIMEOUT : 20
 dependencies:
@@ -16,13 +17,10 @@ test:
     # wait for it to have booted
     - circle-android wait-for-boot
     # unlock the emulator screen
-    - sleep 30
+    - sleep 10
     - adb shell input keyevent 82
     # run tests against the emulator.
     - if [ -e ./gradlew ]; then ./gradlew jacocoTestReport -PdisablePreDex;else gradle jacocoTestReport -PdisablePreDex;fi
-    # rename the report folder of jacoco to meet the report name in the plugin
-    - mv $APP_HOME/build/reports/jacoco/jacocoTestReport $APP_HOME/build/reports/jacoco/test
   post:
     # copy coverage result to artifacts
-    - mv $APP_HOME/build/reports/jacoco/test $APP_HOME/build/reports/jacoco/coverage
-    - cp -r $APP_HOME/build/reports/jacoco/coverage $CIRCLE_ARTIFACTS
+    - cp -r $APP_HOME/build/reports/jacoco/jacocoTestReport $CIRCLE_ARTIFACTS

@@ -59,3 +59,6 @@ Call PopupDismissCatchableSpinner.setOnPopupDismissListener(PopupDismissListener
 		// ...
 	}
 ```
+
+Status on CircleCI:
+[![Circle CI](https://circleci.com/gh/duchuyctlk/Popup-Dismiss-Catchable-Spinner.svg?style=svg)](https://circleci.com/gh/duchuyctlk/Popup-Dismiss-Catchable-Spinner)
