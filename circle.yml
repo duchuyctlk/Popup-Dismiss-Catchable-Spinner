@@ -21,6 +21,14 @@ test:
     - adb shell input keyevent 82
     # run tests against the emulator.
     - if [ -e ./gradlew ]; then ./gradlew jacocoTestReport -PdisablePreDex;else gradle jacocoTestReport -PdisablePreDex;fi
+    # rename the report folder of jacoco to meet the report name in the plugin
+    - mv $APP_HOME/build/reports/jacoco/jacocoTestReport $APP_HOME/build/reports/jacoco/test
+    # run coveralls to upload result to Coveralls
+    - if [ -e ./gradlew ]; then ./gradlew coveralls;else gradle coveralls;fi
   post:
-    # copy build results to artifacts
-    - cp -r $APP_HOME/build/* $CIRCLE_ARTIFACTS
+    - echo 'Testing completed!!'
+    - cp -r $APP_HOME/build/reports/* $CIRCLE_ARTIFACTS
+    # copy the build outputs to artifacts
+    - cp -r $APP_HOME/build/outputs $CIRCLE_ARTIFACTS
+    # copy the test results to the test results directory.
+    - cp -r $APP_HOME/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
