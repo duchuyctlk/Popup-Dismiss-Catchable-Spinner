@@ -5,6 +5,7 @@ machine:
 dependencies:
   pre:
     - wget "https://services.gradle.org/distributions/gradle-2.10-bin.zip"; unzip gradle-2.10-bin.zip
+    - echo y | android update sdk --no-ui --all --filter build-tools-23.0.2
 test:
   override:
     # start the emulator
