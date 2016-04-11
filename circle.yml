@@ -26,9 +26,12 @@ test:
     # run coveralls to upload result to Coveralls
     - if [ -e ./gradlew ]; then ./gradlew coveralls;else gradle coveralls;fi
   post:
-    - echo 'Testing completed!!'
-    - cp -r $APP_HOME/build/reports/* $CIRCLE_ARTIFACTS
+    # copy coverage result to artifacts
+    - mv $APP_HOME/build/reports/jacoco/test $APP_HOME/build/reports/jacoco/coverage
+    - cp -r $APP_HOME/build/reports/jacoco/coverage $CIRCLE_ARTIFACTS
     # copy the build outputs to artifacts
     - cp -r $APP_HOME/build/outputs $CIRCLE_ARTIFACTS
+    # copy the build reports to artifacts
+    - cp -r $APP_HOME/build/reports $CIRCLE_ARTIFACTS
     # copy the test results to the test results directory.
     - cp -r $APP_HOME/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
