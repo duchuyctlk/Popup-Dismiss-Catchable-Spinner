@@ -22,5 +22,5 @@ test:
     # run tests against the emulator.
     - if [ -e ./gradlew ]; then ./gradlew jacocoTestReport -PdisablePreDex;else gradle jacocoTestReport -PdisablePreDex;fi
   post:
-    # copy coverage result to artifacts
-    - cp -r $APP_HOME/build/reports/jacoco/jacocoTestReport $CIRCLE_ARTIFACTS
+    # copy build results to artifacts
+    - cp -r $APP_HOME/build/* $CIRCLE_ARTIFACTS
