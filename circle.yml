@@ -8,13 +8,11 @@ machine:
     CI_BRANCH: $CIRCLE_BRANCH
     CI_COMMITTER_NAME: "Name"
     CI_COMMITTER_EMAIL: "Email"
-    CI_COMMITTER_USERNAME: "Username"
-    CI_MESSAGE: $(git log --format=%B -n 1 $CIRCLE_SHA1)
+    CI_COMMITTER_USERNAME: $CIRCLE_USERNAME
+    CI_MESSAGE: $(git log --format=oneline -n 1 $CIRCLE_SHA1)
   post:
-    - echo $CIRCLE_USERNAME
-    - echo "${CIRCLE_USERNAME}"
-    - echo $(git log --format=%B -n 1 $CIRCLE_SHA1)
-    - echo "${git log --format=%B -n 1 $CIRCLE_SHA1}"
+    - echo $CI_COMMITTER_USERNAME
+    - echo $CI_MESSAGE
 dependencies:
   pre:
     - wget "https://services.gradle.org/distributions/gradle-2.10-bin.zip"; unzip gradle-2.10-bin.zip
