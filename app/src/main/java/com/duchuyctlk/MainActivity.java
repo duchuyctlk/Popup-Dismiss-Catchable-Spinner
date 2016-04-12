@@ -12,12 +12,16 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.view.Menu;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public class MainActivity extends Activity implements PopupDismissListener {
 
     private TextView tvDismissCount;
     private TextView tvOpenCount;
+    private PopupDismissCatchableSpinner mSpinnerDropdown;
+    private PopupDismissCatchableSpinner mSpinnerDialog;
     private int mDismissCount;
     private int mOpenCount;
 
@@ -37,14 +41,24 @@ public class MainActivity extends Activity implements PopupDismissListener {
 
         tvDismissCount = (TextView) findViewById(R.id.tv_count_dismiss);
         tvOpenCount = (TextView) findViewById(R.id.tv_count_open);
+        mSpinnerDropdown = (PopupDismissCatchableSpinner) findViewById(R.id.spinner_dropdown);
+        mSpinnerDialog = (PopupDismissCatchableSpinner) findViewById(R.id.spinner_dialog);
 
-        PopupDismissCatchableSpinner spinnerDropdown = (PopupDismissCatchableSpinner)
-                findViewById(R.id.spinner_dropdown);
-        spinnerDropdown.setOnPopupDismissListener(this);
+        ToggleButton btnUseListener = (ToggleButton) findViewById(R.id.btn_use_listener);
+        if (btnUseListener.isChecked()) {
+            addListeners();
+        }
 
-        PopupDismissCatchableSpinner spinnerDialog = (PopupDismissCatchableSpinner)
-                findViewById(R.id.spinner_dialog);
-        spinnerDialog.setOnPopupDismissListener(this);
+        btnUseListener.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    addListeners();
+                } else {
+                    removeListeners();
+                }
+            }
+        });
 
         mDismissCount = 0;
         mOpenCount = 0;
@@ -67,5 +81,15 @@ public class MainActivity extends Activity implements PopupDismissListener {
     public void onShow() {
         mOpenCount++;
         tvOpenCount.setText(String.valueOf(mOpenCount));
+    }
+
+    private void addListeners() {
+        mSpinnerDropdown.addOnPopupDismissListener(this);
+        mSpinnerDialog.addOnPopupDismissListener(this);
+    }
+
+    private void removeListeners() {
+        mSpinnerDropdown.removeOnPopupDismissListener(this);
+        mSpinnerDialog.removeOnPopupDismissListener(this);
     }
 }

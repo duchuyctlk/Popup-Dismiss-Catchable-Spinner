@@ -2,6 +2,8 @@ package com.duchuyctlk.widget;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -28,37 +30,46 @@ public class PopupDismissCatchableSpinner extends Spinner {
     }
 
     private class InternalListener implements PopupWindow.OnDismissListener, DialogInterface.OnDismissListener {
-        private PopupDismissListener mListener = null;
+        private List<PopupDismissListener> mListeners = new ArrayList<>();
         private PopupWindow.OnDismissListener mPopupListener = null;
 
-        public void setListener(PopupDismissListener listener) {
-            mListener = listener;
+        public void addListener(PopupDismissListener listener) {
+            if (listener != null && !mListeners.contains(listener)) {
+                mListeners.add(listener);
+            }
         }
 
-        public void setPopupListener(PopupWindow.OnDismissListener listener) {
+        public void removeListener(PopupDismissListener listener) {
+            if (listener != null) {
+                mListeners.remove(listener);
+            }
+        }
+
+        protected void setPopupListener(PopupWindow.OnDismissListener listener) {
             mPopupListener = listener;
         }
 
         @Override
         public void onDismiss(DialogInterface dialog) {
-            if (mListener != null) {
-                mListener.onDismiss(dialog);
+            for (PopupDismissListener listener : mListeners) {
+                listener.onDismiss(dialog);
             }
         }
 
         @Override
         public void onDismiss() {
-            if (mListener != null) {
-                mListener.onDismiss(null);
+            for (PopupDismissListener listener : mListeners) {
+                listener.onDismiss(null);
             }
+
             if (mPopupListener != null) {
                 mPopupListener.onDismiss();
             }
         }
 
         public void onShow() {
-            if (mListener != null) {
-                mListener.onShow();
+            for (PopupDismissListener listener : mListeners) {
+                listener.onShow();
             }
         }
     }
@@ -78,12 +89,21 @@ public class PopupDismissCatchableSpinner extends Spinner {
     }
 
     /**
-     * Set a listener to receive a callback when the popup is opened or dismissed.
+     * Add a listener to receive a callback when the popup is opened or dismissed.
      *
      * @param listener Listener that will be notified when the popup is opened or dismissed.
      */
-    public void setOnPopupDismissListener(PopupDismissListener listener) {
-        mInternalListener.setListener(listener);
+    public void addOnPopupDismissListener(PopupDismissListener listener) {
+        mInternalListener.addListener(listener);
+    }
+
+    /**
+     * Remove a listener from the list of this <code>{@link Spinner}</code>'s listeners
+     *
+     * @param listener Listener that will be removed from the list.
+     */
+    public void removeOnPopupDismissListener(PopupDismissListener listener) {
+        mInternalListener.removeListener(listener);
     }
 
     @Override
@@ -176,8 +196,15 @@ public class PopupDismissCatchableSpinner extends Spinner {
             String spinnerPopupClassName = mFieldSpinnerPopup.get(this).getClass().getSimpleName();
             mFieldSpinnerPopup.setAccessible(false);
 
-            result = Constant.DIALOG_POPUP.equals(spinnerPopupClassName) ? MODE_DIALOG :
-                    (Constant.DROPDOWN_POPUP.equals(spinnerPopupClassName) ? MODE_DROPDOWN : MODE_UNKNOWN);
+            switch (spinnerPopupClassName) {
+                case Constant.DIALOG_POPUP:
+                    result = MODE_DIALOG;
+                    break;
+                case Constant.DROPDOWN_POPUP:
+                    result = MODE_DROPDOWN;
+                    break;
+                default:
+            }
         } catch (Exception exception) {
             exception.printStackTrace();
         }

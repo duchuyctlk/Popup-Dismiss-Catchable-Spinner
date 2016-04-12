@@ -32,9 +32,9 @@ public class MainActivityTest {
                 R.id.tv_count_dismiss,
                 R.id.spinner_dropdown,
                 R.id.tv_label_open,
-                R.id.tv_count_open);
-        onView(withId(R.id.tv_count_open)).check(matches(withText(String.valueOf(0))));
-        onView(withId(R.id.tv_count_dismiss)).check(matches(withText(String.valueOf(0))));
+                R.id.tv_count_open,
+                R.id.btn_use_listener);
+        checkTextViewsValue(0, R.id.tv_count_open, R.id.tv_count_dismiss);
     }
 
     @Test
@@ -45,20 +45,42 @@ public class MainActivityTest {
 
     @Test
     public void checkSpinnerMode() {
-        onView(withId(R.id.spinner_dialog)).check(matches(CustomMatchers.withSpinnerMode(Spinner.MODE_DIALOG)));
-        onView(withId(R.id.spinner_dropdown)).check(matches(CustomMatchers.withSpinnerMode(Spinner.MODE_DROPDOWN)));
+        checkSpinnerMode(R.id.spinner_dialog, Spinner.MODE_DIALOG);
+        checkSpinnerMode(R.id.spinner_dropdown, Spinner.MODE_DROPDOWN);
+    }
+
+    @Test
+    public void clickOnToggleButton() {
+        // turn off listener
+        onView(withId(R.id.btn_use_listener)).perform(click());
+        clickOnSpinner(R.id.spinner_dropdown, 0);
+        clickOnSpinner(R.id.spinner_dialog, 0);
+
+        // turn on listener
+        onView(withId(R.id.btn_use_listener)).perform(click());
+        clickSpinnerDropdown();
+
     }
 
     private void clickOnSpinner(int spinnerId, int expectedValue) {
         onView(withId(spinnerId)).perform(click());
         Espresso.pressBack();
-        onView(withId(R.id.tv_count_open)).check(matches(withText(String.valueOf(expectedValue))));
-        onView(withId(R.id.tv_count_dismiss)).check(matches(withText(String.valueOf(expectedValue))));
+        checkTextViewsValue(expectedValue, R.id.tv_count_open, R.id.tv_count_dismiss);
     }
 
     private void testWidgetIsDisplayed(int... ids) {
         for (int id : ids) {
             onView(withId(id)).check(matches(isDisplayed()));
+        }
+    }
+
+    private void checkSpinnerMode(int spinnerId, int spinnerMode) {
+        onView(withId(spinnerId)).check(matches(CustomMatchers.withSpinnerMode(spinnerMode)));
+    }
+
+    private void checkTextViewsValue(int expectedValue, int... textViewIds) {
+        for (int textViewId : textViewIds) {
+            onView(withId(textViewId)).check(matches(withText(String.valueOf(expectedValue))));
         }
     }
 }
