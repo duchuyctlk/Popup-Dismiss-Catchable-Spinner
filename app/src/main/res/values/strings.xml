@@ -8,6 +8,7 @@
     <string name="close_count">Close Count:</string>
     <string name="open_count">Open Count:</string>
     <string name="country_prompt">Choose a country</string>
+    <string name="use_listener">Use listener</string>
     <string-array name="country_arrays">
         <item>Malaysia</item>
         <item>United States</item>
