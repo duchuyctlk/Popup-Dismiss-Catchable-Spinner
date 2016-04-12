@@ -1,11 +1,13 @@
 machine:
+  pre:
+    echo $CIRCLE_USERNAME
+    echo "${CIRCLE_USERNAME}"
+    echo $(git log --format=%B -n 1 $CIRCLE_SHA1)
+    echo "${git log --format=%B -n 1 $CIRCLE_SHA1}"
   environment:
     APP_HOME: /home/ubuntu/Popup-Dismiss-Catchable-Spinner/app
     PATH: "~/$CIRCLE_PROJECT_REPONAME/gradle-2.10/bin:$PATH"
     ADB_INSTALL_TIMEOUT : 20
-    echo $CIRCLE_USERNAME
-    echo "${CIRCLE_USERNAME}"
-    echo $(git log --format=%B -n 1 $CIRCLE_SHA1)
     CI_BUILD_NUMBER: $CIRCLE_BUILD_NUM
     CI_BUILD_URL: $CIRCLE_BUILD_URL
     CI_BRANCH: $CIRCLE_BRANCH
