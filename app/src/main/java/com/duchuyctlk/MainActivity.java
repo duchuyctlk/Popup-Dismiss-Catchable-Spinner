@@ -1,13 +1,17 @@
 package com.duchuyctlk;
 
+import com.duchuyctlk.popupdismisscatchablespinner.BuildConfig;
 import com.duchuyctlk.popupdismisscatchablespinner.R;
 import com.duchuyctlk.widget.PopupDismissCatchableSpinner;
 import com.duchuyctlk.widget.PopupDismissCatchableSpinner.PopupDismissListener;
 
+import android.app.KeyguardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.view.Menu;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements PopupDismissListener {
@@ -17,9 +21,18 @@ public class MainActivity extends Activity implements PopupDismissListener {
     private int mDismissCount;
     private int mOpenCount;
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (BuildConfig.DEBUG) {
+            KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+            KeyguardManager.KeyguardLock keyguardLock = km.newKeyguardLock(MainActivity.class.getSimpleName());
+            keyguardLock.disableKeyguard();
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        }
+
         setContentView(R.layout.activity_main);
 
         tvDismissCount = (TextView) findViewById(R.id.tv_count_dismiss);
