@@ -11,9 +11,9 @@ machine:
     CI_COMMITTER_USERNAME: $CIRCLE_USERNAME
     CI_MESSAGE: $(git log --format=oneline -n 1 $CIRCLE_SHA1)
   post:
-    - echo $CIRCLE_SHA1
-    - echo $CIRCLE_USERNAME
-    - echo $CI_COMMITTER_USERNAME
+    - echo "${$CIRCLE_SHA1}"
+    - echo "${CIRCLE_USERNAME}"
+    - echo "${CI_COMMITTER_USERNAME}"
     - echo $CI_MESSAGE
 dependencies:
   pre:
