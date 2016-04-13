@@ -6,7 +6,6 @@ import android.support.test.runner.AndroidJUnit4;
 import android.widget.Spinner;
 
 import com.duchuyctlk.helpers.matchers.CustomMatchers;
-import com.duchuyctlk.popupdismisscatchablespinner.R;
 
 import org.junit.Rule;
 import org.junit.Test;

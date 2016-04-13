@@ -1,7 +1,5 @@
 package com.duchuyctlk;
 
-import com.duchuyctlk.popupdismisscatchablespinner.BuildConfig;
-import com.duchuyctlk.popupdismisscatchablespinner.R;
 import com.duchuyctlk.widget.PopupDismissCatchableSpinner;
 import com.duchuyctlk.widget.PopupDismissCatchableSpinner.PopupDismissListener;
 
