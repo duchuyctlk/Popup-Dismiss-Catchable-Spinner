@@ -8,9 +8,9 @@ A custom `Spinner` to which you could set listener for popup dismissal event
 
 Usage
 --
-Copy `com.duchuyctlk.widget.PopupDismissCatchableSpinner.java` to your src folder.
+Copy class `PopupDismissCatchableSpinner` to your src folder.
 
-In layout files, use `com.duchuyctlk.widget.PopupDismissCatchableSpinner` instead of Spinner widget.
+In layout files, use `com.duchuyctlk.widget.PopupDismissCatchableSpinner` instead of `Spinner` widget.
 
 ```xml
 <com.duchuyctlk.widget.PopupDismissCatchableSpinner
