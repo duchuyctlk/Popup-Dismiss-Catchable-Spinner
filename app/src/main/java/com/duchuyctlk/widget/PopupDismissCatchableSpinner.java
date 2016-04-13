@@ -30,7 +30,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
     }
 
     private class InternalListener implements PopupWindow.OnDismissListener, DialogInterface.OnDismissListener {
-        private List<PopupDismissListener> mListeners = new ArrayList<>();
+        private final List<PopupDismissListener> mListeners = new ArrayList<>();
         private PopupWindow.OnDismissListener mPopupListener = null;
 
         public void addListener(PopupDismissListener listener) {
@@ -45,7 +45,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
             }
         }
 
-        protected void setPopupListener(PopupWindow.OnDismissListener listener) {
+        private void setPopupListener(PopupWindow.OnDismissListener listener) {
             mPopupListener = listener;
         }
 
@@ -75,7 +75,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
     }
 
     private Field mFieldSpinnerPopup = null;
-    private InternalListener mInternalListener = new InternalListener();
+    private final InternalListener mInternalListener = new InternalListener();
 
     /**
      * Construct a new spinner with the given context's theme and the supplied attribute set.
