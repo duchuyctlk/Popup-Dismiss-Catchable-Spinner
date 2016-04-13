@@ -45,7 +45,7 @@ public class MainActivity extends Activity implements PopupDismissListener {
 }
 ```
 
-Call PopupDismissCatchableSpinner.setOnPopupDismissListener(PopupDismissListener listener) and you are able to catch show/dismiss events
+Call `PopupDismissCatchableSpinner.addOnPopupDismissListener(PopupDismissListener listener)` and you are able to catch show/dismiss events
 
 ```java
 	@Override
@@ -55,7 +55,7 @@ Call PopupDismissCatchableSpinner.setOnPopupDismissListener(PopupDismissListener
 		
 		// ...
 		spinner1 = (PopupDismissCatchableSpinner) findViewById(R.id.spinner1);
-		spinner1.setOnPopupDismissListener(this);		
+		spinner1.addOnPopupDismissListener(this);		
 		// ...
 	}
 ```
