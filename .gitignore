@@ -1,6 +1,5 @@
 *.iml
 .DS_Store
-gradlew*
 local.properties
 /.gradle
 /.idea/
