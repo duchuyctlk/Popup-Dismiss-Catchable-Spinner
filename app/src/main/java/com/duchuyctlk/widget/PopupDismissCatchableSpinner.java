@@ -108,11 +108,13 @@ public class PopupDismissCatchableSpinner extends Spinner {
 
     @Override
     public boolean performClick() {
-        boolean result = super.performClick();
+        boolean handled = true;
 
         try {
+            handled = super.performClick();
+
             // reflecting Spinner.mPopup field
-            if (mFieldSpinnerPopup == null) {
+            if (isFieldSpinnerPopupNull()) {
                 mFieldSpinnerPopup = this.getClass().getSuperclass().getDeclaredField(Constant.M_POPUP);
             }
 
@@ -174,7 +176,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        return result;
+        return handled;
     }
 
     /**
@@ -187,7 +189,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
 
         try {
             // reflecting Spinner.mPopup field
-            if (mFieldSpinnerPopup == null) {
+            if (isFieldSpinnerPopupNull()) {
                 mFieldSpinnerPopup = this.getClass().getSuperclass().getDeclaredField(Constant.M_POPUP);
             }
 
@@ -210,5 +212,9 @@ public class PopupDismissCatchableSpinner extends Spinner {
         }
 
         return result;
+    }
+
+    public boolean isFieldSpinnerPopupNull() {
+        return mFieldSpinnerPopup == null;
     }
 }
