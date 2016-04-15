@@ -1,11 +1,14 @@
-package com.duchuyctlk;
+package com.duchuyctlk.integrations;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.Spinner;
 
+import com.duchuyctlk.MainActivity;
+import com.duchuyctlk.R;
 import com.duchuyctlk.helpers.matchers.CustomMatchers;
+import com.duchuyctlk.widget.PopupDismissCatchableSpinner;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,6 +20,8 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.spy;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
@@ -58,7 +63,6 @@ public class MainActivityTest {
         // turn on listener
         onView(withId(R.id.btn_use_listener)).perform(click());
         clickSpinnerDropdown();
-
     }
 
     private void clickOnSpinner(int spinnerId, int expectedValue) {
@@ -81,5 +85,16 @@ public class MainActivityTest {
         for (int textViewId : textViewIds) {
             onView(withId(textViewId)).check(matches(withText(String.valueOf(expectedValue))));
         }
+    }
+
+    @Test
+    public void handleExceptions() {
+        MainActivity activity = mActivityRule.getActivity();
+        PopupDismissCatchableSpinner spinner =
+                (PopupDismissCatchableSpinner) activity.findViewById(R.id.spinner_dialog);
+        PopupDismissCatchableSpinner spySpinner = spy(spinner);
+        doThrow(new IndexOutOfBoundsException()).when(spySpinner).isFieldSpinnerPopupNull();
+        spySpinner.getSpinnerMode();
+        spySpinner.performClick();
     }
 }
