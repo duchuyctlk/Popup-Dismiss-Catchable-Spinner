@@ -60,4 +60,5 @@ Status on CircleCI:
 [![Circle CI](https://circleci.com/gh/duchuyctlk/Popup-Dismiss-Catchable-Spinner.svg?style=svg)](https://circleci.com/gh/duchuyctlk/Popup-Dismiss-Catchable-Spinner)
 
 Test coverage on Coveralls.io:
-[![Coverage Status](https://coveralls.io/repos/github/duchuyctlk/Popup-Dismiss-Catchable-Spinner/badge.png?branch=master)](https://coveralls.io/github/duchuyctlk/Popup-Dismiss-Catchable-Spinner?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/duchuyctlk/Popup-Dismiss-Catchable-Spinner/badge.svg?branch=master)](https://coveralls.io/github/duchuyctlk/Popup-Dismiss-Catchable-Spinner?branch=master)
+
