@@ -93,7 +93,7 @@ public class MainActivityTest {
         PopupDismissCatchableSpinner spinner =
                 (PopupDismissCatchableSpinner) activity.findViewById(R.id.spinner_dialog);
         PopupDismissCatchableSpinner spySpinner = spy(spinner);
-        doThrow(new IndexOutOfBoundsException()).when(spySpinner).isFieldSpinnerPopupNull();
+        doThrow(new RuntimeException()).when(spySpinner).isFieldSpinnerPopupNull();
         spySpinner.getSpinnerMode();
         spySpinner.performClick();
     }
