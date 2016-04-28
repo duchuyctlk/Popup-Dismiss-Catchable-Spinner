@@ -2,6 +2,7 @@ package com.duchuyctlk;
 
 import com.duchuyctlk.widget.PopupDismissCatchableSpinner;
 import com.duchuyctlk.widget.PopupDismissCatchableSpinner.PopupDismissListener;
+import com.duchuyctlk.widget.PopupDismissCatchableSpinner.PopupOpenListener;
 
 import android.app.KeyguardManager;
 import android.content.Context;
@@ -10,14 +11,14 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.view.Menu;
 import android.view.WindowManager;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 
-public class MainActivity extends Activity implements PopupDismissListener {
+public class MainActivity extends Activity implements PopupDismissListener, PopupOpenListener {
 
     @Bind(R.id.tv_count_dismiss)
     TextView tvDismissCount;
@@ -57,11 +58,13 @@ public class MainActivity extends Activity implements PopupDismissListener {
         mDismissCount = 0;
         mOpenCount = 0;
 
+        btnUseListener.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked)
+                -> onCheckedChanged(isChecked));
+
         onCheckedChanged(btnUseListener.isChecked());
     }
 
-    @OnCheckedChanged(value = {R.id.btn_use_listener})
-    void onCheckedChanged(boolean isChecked) {
+    private void onCheckedChanged(boolean isChecked) {
         if (isChecked) {
             addListeners();
         } else {
@@ -89,12 +92,24 @@ public class MainActivity extends Activity implements PopupDismissListener {
     }
 
     private void addListeners() {
-        mSpinnerDropdown.addOnPopupDismissListener(this);
-        mSpinnerDialog.addOnPopupDismissListener(this);
+        addSpinnerListener(mSpinnerDropdown, mSpinnerDialog);
     }
 
     private void removeListeners() {
-        mSpinnerDropdown.removeOnPopupDismissListener(this);
-        mSpinnerDialog.removeOnPopupDismissListener(this);
+        removeSpinnerListener(mSpinnerDropdown, mSpinnerDialog);
+    }
+
+    private void addSpinnerListener(PopupDismissCatchableSpinner... spinners) {
+        for (PopupDismissCatchableSpinner spinner : spinners) {
+            spinner.addOnPopupDismissListener(this);
+            spinner.addOnPopupOpenListener(this);
+        }
+    }
+
+    private void removeSpinnerListener(PopupDismissCatchableSpinner... spinners) {
+        for (PopupDismissCatchableSpinner spinner : spinners) {
+            spinner.removeOnPopupDismissListener(this);
+            spinner.removeOnPopupOpenListener(this);
+        }
     }
 }
