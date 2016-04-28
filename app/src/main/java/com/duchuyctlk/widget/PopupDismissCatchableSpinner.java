@@ -21,27 +21,46 @@ public class PopupDismissCatchableSpinner extends Spinner {
 
     /**
      * Interface used to allow the creator of a <code>{@link Spinner}</code>
-     * to run some code when the Spinner's Popup is opened or dismissed.
+     * to run some code when the Spinner's Popup is dismissed.
      */
     public interface PopupDismissListener {
-        void onShow();
-
         void onDismiss(DialogInterface dialog);
     }
 
+    /**
+     * Interface used to allow the creator of a <code>{@link Spinner}</code>
+     * to run some code when the Spinner's Popup is opened.
+     */
+    public interface PopupOpenListener {
+        void onShow();
+    }
+
     private class InternalListener implements PopupWindow.OnDismissListener, DialogInterface.OnDismissListener {
-        private final List<PopupDismissListener> mListeners = new ArrayList<>();
+        private final List<PopupDismissListener> mDismissListeners = new ArrayList<>();
+        private final List<PopupOpenListener> mOpenListeners = new ArrayList<>();
         private PopupWindow.OnDismissListener mPopupListener = null;
 
-        public void addListener(PopupDismissListener listener) {
-            if (listener != null && !mListeners.contains(listener)) {
-                mListeners.add(listener);
+        public void addDismissListener(PopupDismissListener listener) {
+            if (listener != null && !mDismissListeners.contains(listener)) {
+                mDismissListeners.add(listener);
             }
         }
 
-        public void removeListener(PopupDismissListener listener) {
+        public void addOpenListener(PopupOpenListener listener) {
+            if (listener != null && !mOpenListeners.contains(listener)) {
+                mOpenListeners.add(listener);
+            }
+        }
+
+        public void removeDismissListener(PopupDismissListener listener) {
             if (listener != null) {
-                mListeners.remove(listener);
+                mDismissListeners.remove(listener);
+            }
+        }
+
+        public void removeOpenListener(PopupOpenListener listener) {
+            if (listener != null) {
+                mOpenListeners.remove(listener);
             }
         }
 
@@ -51,14 +70,14 @@ public class PopupDismissCatchableSpinner extends Spinner {
 
         @Override
         public void onDismiss(DialogInterface dialog) {
-            for (PopupDismissListener listener : mListeners) {
+            for (PopupDismissListener listener : mDismissListeners) {
                 listener.onDismiss(dialog);
             }
         }
 
         @Override
         public void onDismiss() {
-            for (PopupDismissListener listener : mListeners) {
+            for (PopupDismissListener listener : mDismissListeners) {
                 listener.onDismiss(null);
             }
 
@@ -68,7 +87,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
         }
 
         public void onShow() {
-            for (PopupDismissListener listener : mListeners) {
+            for (PopupOpenListener listener : mOpenListeners) {
                 listener.onShow();
             }
         }
@@ -94,7 +113,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
      * @param listener Listener that will be notified when the popup is opened or dismissed.
      */
     public void addOnPopupDismissListener(PopupDismissListener listener) {
-        mInternalListener.addListener(listener);
+        mInternalListener.addDismissListener(listener);
     }
 
     /**
@@ -103,7 +122,25 @@ public class PopupDismissCatchableSpinner extends Spinner {
      * @param listener Listener that will be removed from the list.
      */
     public void removeOnPopupDismissListener(PopupDismissListener listener) {
-        mInternalListener.removeListener(listener);
+        mInternalListener.removeDismissListener(listener);
+    }
+
+    /**
+     * Add a listener to receive a callback when the popup is opened or dismissed.
+     *
+     * @param listener Listener that will be notified when the popup is opened or dismissed.
+     */
+    public void addOnPopupOpenListener(PopupOpenListener listener) {
+        mInternalListener.addOpenListener(listener);
+    }
+
+    /**
+     * Remove a listener from the list of this <code>{@link Spinner}</code>'s listeners
+     *
+     * @param listener Listener that will be removed from the list.
+     */
+    public void removeOnPopupOpenListener(PopupOpenListener listener) {
+        mInternalListener.removeOpenListener(listener);
     }
 
     @Override

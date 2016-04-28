@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'jacoco'
+apply plugin: 'me.tatarka.retrolambda'
 
 project.ext.preDexLibs = !project.hasProperty('disablePreDex')
 
@@ -20,12 +21,18 @@ buildscript {
             url "https://plugins.gradle.org/m2/"
         }
         jcenter()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0-alpha3'
+        classpath 'com.android.tools.build:gradle:2.1.0'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1x'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.2'
     }
+}
+
+repositories {
+    mavenCentral()
 }
 
 android {
@@ -47,6 +54,10 @@ android {
         debug {
             testCoverageEnabled true
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -82,14 +93,12 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['connectedCheck', 'test'])
         html.enabled = true
     }
 
-    // use hidden configuration, for details look into JacocoPlugin.groovy
-    jacocoClasspath = project.configurations['androidJacocoAnt']
-
     // exclude auto-generated classes and tests
     def fileFilter = ['**/R.class',
                       '**/R$*.class',
                       '**/BuildConfig.*',
                       '**/*$ViewBinder*.*',
+                      '**/*$Lambda$*.*',
                       '**/Manifest*.*',
                       '**/*Test*.*',
                       'android/**/*.*']
