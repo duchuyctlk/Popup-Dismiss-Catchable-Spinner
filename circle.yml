@@ -6,6 +6,9 @@ machine:
     CI_BUILD_NUMBER: $CIRCLE_BUILD_NUM
     CI_BUILD_URL: $CIRCLE_BUILD_URL
     CI_BRANCH: $CIRCLE_BRANCH
+  java:
+    version:
+      oraclejdk8
 dependencies:
   pre:
     - wget "https://services.gradle.org/distributions/gradle-2.10-bin.zip"; unzip gradle-2.10-bin.zip
