@@ -1,0 +1,50 @@
+apply plugin: 'com.android.library'
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'popup-dismiss-catchable-spinner'
+
+    publishedGroupId = 'com.duchuyctlk.widget'
+    libraryName = 'Popup-Dismiss-Catchable-Spinner'
+    artifact = 'spinner-lib'
+
+    libraryDescription = 'A custom Spinner to which you could set listener for popup dismissal event.'
+
+    siteUrl = 'https://github.com/duchuyctlk/Popup-Dismiss-Catchable-Spinner'
+    gitUrl = 'https://github.com/duchuyctlk/Popup-Dismiss-Catchable-Spinner.git'
+
+    libraryVersion = '0.0.1'
+
+    developerId = 'duchuyctlk'
+    developerName = 'Nguyen Duc Huy'
+    developerEmail = 'duc.huy.ctlk@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:23.2.0'
+}
+
+apply from: "../installv1.gradle"
+apply from: "../bintrayv1.gradle"
