@@ -13,10 +13,13 @@ import android.widget.ListPopupWindow;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 
-import com.duchuyctlk.Constant;
-
 public class PopupDismissCatchableSpinner extends Spinner {
 
+    private static final String M_POPUP = "mPopup";
+    private static final String DROPDOWN_POPUP = "DropdownPopup";
+    private static final String IS_SHOWING = "isShowing";
+    private static final String DIALOG_POPUP = "DialogPopup";
+    private static final String ON_DISMISS_LISTENER = "mOnDismissListener";    
     private static final int MODE_UNKNOWN = -1;
 
     /**
@@ -152,7 +155,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
 
             // reflecting Spinner.mPopup field
             if (isFieldSpinnerPopupNull()) {
-                mFieldSpinnerPopup = this.getClass().getSuperclass().getDeclaredField(Constant.M_POPUP);
+                mFieldSpinnerPopup = this.getClass().getSuperclass().getDeclaredField(M_POPUP);
             }
 
             // disable access checks to Spinner.mPopup
@@ -163,7 +166,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
 
             // reflecting SpinnerPopup.isShowing()
             Method isShowing = mFieldSpinnerPopup.getType()
-                    .getDeclaredMethod(Constant.IS_SHOWING, (Class[]) null);
+                    .getDeclaredMethod(IS_SHOWING, (Class[]) null);
 
             // calling Spinner.mPopup.isShowing()
             boolean isShowingResult = (boolean) isShowing.invoke(spinnerPopup, (Object[]) null);
@@ -175,7 +178,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
                 // check if mFieldSpinnerPopup is a dialog popup
                 if (getSpinnerMode() == MODE_DIALOG) {
                     // reflecting DialogPopup.mPopup
-                    Field fieldAlertDialog = spinnerPopup.getClass().getDeclaredField(Constant.M_POPUP);
+                    Field fieldAlertDialog = spinnerPopup.getClass().getDeclaredField(M_POPUP);
 
                     // disable access checks to Spinner.mPopup.mPopup
                     fieldAlertDialog.setAccessible(true);
@@ -187,11 +190,11 @@ public class PopupDismissCatchableSpinner extends Spinner {
                     fieldAlertDialog.setAccessible(false);
                 } else if (getSpinnerMode() == MODE_DROPDOWN) {
                     // reflecting Spinner.mPopup.mPopup
-                    Field fieldPopupWindow = ListPopupWindow.class.getDeclaredField(Constant.M_POPUP);
+                    Field fieldPopupWindow = ListPopupWindow.class.getDeclaredField(M_POPUP);
                     fieldPopupWindow.setAccessible(true);
 
                     // reflecting Spinner.mPopup.mPopup.OnDismissListener
-                    Field fieldOnDismissListener = PopupWindow.class.getDeclaredField(Constant.ON_DISMISS_LISTENER);
+                    Field fieldOnDismissListener = PopupWindow.class.getDeclaredField(ON_DISMISS_LISTENER);
                     fieldOnDismissListener.setAccessible(true);
 
                     // get the default listener and set into the custom listener
@@ -227,7 +230,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
         try {
             // reflecting Spinner.mPopup field
             if (isFieldSpinnerPopupNull()) {
-                mFieldSpinnerPopup = this.getClass().getSuperclass().getDeclaredField(Constant.M_POPUP);
+                mFieldSpinnerPopup = this.getClass().getSuperclass().getDeclaredField(M_POPUP);
             }
 
             // get Spinner.DropdownPopup class name
@@ -236,10 +239,10 @@ public class PopupDismissCatchableSpinner extends Spinner {
             mFieldSpinnerPopup.setAccessible(false);
 
             switch (spinnerPopupClassName) {
-                case Constant.DIALOG_POPUP:
+                case DIALOG_POPUP:
                     result = MODE_DIALOG;
                     break;
-                case Constant.DROPDOWN_POPUP:
+                case DROPDOWN_POPUP:
                     result = MODE_DROPDOWN;
                     break;
                 default:
