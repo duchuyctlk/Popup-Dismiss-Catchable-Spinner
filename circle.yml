@@ -16,6 +16,12 @@ dependencies:
     - echo y | android update sdk --no-ui --all --filter build-tools-23.0.2
 test:
   override:
+    # try as mentioned in https://discuss.circleci.com/t/git-commit-message-in-environment-variable/533/3
+    - echo $GIT_COMMIT_DESC:
+        environment:
+          GIT_COMMIT_DESC: $(git log --format=oneline -n 1 $CIRCLE_SHA1)
+    - export CI_MESSAGE="$(git log --format=oneline -n 1 $CIRCLE_SHA1)"
+    
     # start the emulator
     - emulator -avd circleci-android22 -netdelay none -netspeed full -no-audio:
         background: true
@@ -41,9 +47,3 @@ test:
     - cp -r $APP_HOME/build/reports $CIRCLE_ARTIFACTS
     # copy the test results to the test results directory.
     - cp -r $APP_HOME/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
-    
-    # try as mentioned in https://discuss.circleci.com/t/git-commit-message-in-environment-variable/533/3
-    - echo $GIT_COMMIT_DESC:
-        environment:
-          GIT_COMMIT_DESC: $(git log --format=oneline -n 1 $CIRCLE_SHA1)
-    - export CI_MESSAGE="$(git log --format=oneline -n 1 $CIRCLE_SHA1)"
