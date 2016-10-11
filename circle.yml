@@ -41,3 +41,8 @@ test:
     - cp -r $APP_HOME/build/reports $CIRCLE_ARTIFACTS
     # copy the test results to the test results directory.
     - cp -r $APP_HOME/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
+    
+    # try as mentioned in https://discuss.circleci.com/t/git-commit-message-in-environment-variable/533/3
+    - echo $GIT_COMMIT_DESC:
+        environment:
+          GIT_COMMIT_DESC: $(git log --format=oneline -n 1 $CIRCLE_SHA1)
