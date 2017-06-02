@@ -1,10 +1,5 @@
 package com.duchuyctlk.widget;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,6 +7,11 @@ import android.util.AttributeSet;
 import android.widget.ListPopupWindow;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PopupDismissCatchableSpinner extends Spinner {
 
@@ -86,6 +86,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
 
             if (mPopupListener != null) {
                 mPopupListener.onDismiss();
+                mPopupListener = null;
             }
         }
 
