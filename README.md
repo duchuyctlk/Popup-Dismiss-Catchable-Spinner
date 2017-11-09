@@ -9,7 +9,7 @@ A custom `Spinner` to which you could set listener for popup dismissal event.
 Download
 --
 Insert these lines into your Module's `build.gradle` file.
-```groovy
+```gradle
 repositories {
     jcenter()
 }
