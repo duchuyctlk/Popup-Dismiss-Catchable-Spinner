@@ -1,10 +1,5 @@
 package com.duchuyctlk.widget;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,14 +8,21 @@ import android.widget.ListPopupWindow;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
 public class PopupDismissCatchableSpinner extends Spinner {
 
     private static final String M_POPUP = "mPopup";
     private static final String DROPDOWN_POPUP = "DropdownPopup";
     private static final String IS_SHOWING = "isShowing";
     private static final String DIALOG_POPUP = "DialogPopup";
-    private static final String ON_DISMISS_LISTENER = "mOnDismissListener";    
+    private static final String ON_DISMISS_LISTENER = "mOnDismissListener";
     private static final int MODE_UNKNOWN = -1;
+
+    private boolean isPopupShown;
 
     /**
      * Interface used to allow the creator of a <code>{@link Spinner}</code>
@@ -76,6 +78,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
             for (PopupDismissListener listener : mDismissListeners) {
                 listener.onDismiss(dialog);
             }
+            isPopupShown = false;
         }
 
         @Override
@@ -87,6 +90,8 @@ public class PopupDismissCatchableSpinner extends Spinner {
             if (mPopupListener != null) {
                 mPopupListener.onDismiss();
             }
+
+            isPopupShown = false;
         }
 
         public void onShow() {
@@ -148,6 +153,8 @@ public class PopupDismissCatchableSpinner extends Spinner {
 
     @Override
     public boolean performClick() {
+        if (isPopupShown) return false;
+
         boolean handled = true;
 
         try {
@@ -172,6 +179,7 @@ public class PopupDismissCatchableSpinner extends Spinner {
             boolean isShowingResult = (boolean) isShowing.invoke(spinnerPopup, (Object[]) null);
 
             if (isShowingResult) {
+                isPopupShown = true;
                 // make listener handle onShow event
                 mInternalListener.onShow();
 

@@ -9,7 +9,7 @@ A custom `Spinner` to which you could set listener for popup dismissal event.
 Download
 --
 Insert these lines into your Module's `build.gradle` file.
-```groovy
+```gradle
 repositories {
     jcenter()
 }
@@ -21,7 +21,7 @@ dependencies {
 
 Usage
 --
-Copy class `PopupDismissCatchableSpinner` to your src folder.
+Follow the Download step.
 
 In layout files, use `com.duchuyctlk.widget.PopupDismissCatchableSpinner` instead of `Spinner` widget.
 
@@ -41,15 +41,10 @@ Implement `PopupDismissListener` interface.
 
 ```java
 public class MainActivity extends Activity implements PopupDismissListener {
-	// TODO override interface's methods
+	// TODO override interface's method
 	@Override
 	public void onDismiss(DialogInterface dialog) {
 		// you could process drop down case and dialog case seperately if needed
-	}
-
-	@Override
-	public void onShow() {
-		// ...
 	}
 }
 ```
