@@ -15,20 +15,12 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 public class MainActivity extends Activity implements PopupDismissListener, PopupOpenListener {
 
-    @Bind(R.id.tv_count_dismiss)
     TextView tvDismissCount;
-    @Bind(R.id.tv_count_open)
     TextView tvOpenCount;
-    @Bind(R.id.spinner_dropdown)
     PopupDismissCatchableSpinner mSpinnerDropdown;
-    @Bind(R.id.spinner_dialog)
     PopupDismissCatchableSpinner mSpinnerDialog;
-    @Bind(R.id.btn_use_listener)
     ToggleButton btnUseListener;
 
     private int mDismissCount;
@@ -36,7 +28,6 @@ public class MainActivity extends Activity implements PopupDismissListener, Popu
 
     @Override
     protected void onDestroy() {
-        ButterKnife.unbind(this);
         super.onDestroy();
     }
 
@@ -53,10 +44,15 @@ public class MainActivity extends Activity implements PopupDismissListener, Popu
         }
 
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
 
         mDismissCount = 0;
         mOpenCount = 0;
+
+        tvDismissCount = (TextView) findViewById(R.id.tv_count_dismiss);
+        tvOpenCount = (TextView) findViewById(R.id.tv_count_open);
+        mSpinnerDropdown = (PopupDismissCatchableSpinner) findViewById(R.id.spinner_dropdown);
+        mSpinnerDialog = (PopupDismissCatchableSpinner) findViewById(R.id.spinner_dialog);
+        btnUseListener = (ToggleButton) findViewById(R.id.btn_use_listener);
 
         btnUseListener.setOnCheckedChangeListener((CompoundButton buttonView, boolean isChecked)
                 -> onCheckedChanged(isChecked));
