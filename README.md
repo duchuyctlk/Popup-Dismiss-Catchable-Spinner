@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.duchuyctlk.widget:spinner-lib:0.0.1'
+    compile 'com.duchuyctlk.widget:spinner-lib:0.0.2'
 }
 ```
 
@@ -56,10 +56,10 @@ Call `PopupDismissCatchableSpinner.addOnPopupDismissListener(PopupDismissListene
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		// ...
 		spinner1 = (PopupDismissCatchableSpinner) findViewById(R.id.spinner1);
-		spinner1.addOnPopupDismissListener(this);		
+		spinner1.addOnPopupDismissListener(this);
 		// ...
 	}
 ```
