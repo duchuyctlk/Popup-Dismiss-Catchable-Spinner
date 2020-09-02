@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.github.kt3k.coveralls'
 apply plugin: 'jacoco'
-apply plugin: 'me.tatarka.retrolambda'
 
 project.ext.preDexLibs = !project.hasProperty('disablePreDex')
 
@@ -22,12 +21,13 @@ buildscript {
         }
         jcenter()
         mavenCentral()
+        google()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.0'
+        classpath 'com.android.tools.build:gradle:4.0.1'
         classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.0.1x'
-        classpath 'me.tatarka:gradle-retrolambda:3.2.2'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
     }
 }
 
@@ -36,14 +36,14 @@ repositories {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
 
     defaultConfig {
         applicationId "com.duchuyctlk.popupdismisscatchablespinner"
         minSdkVersion 14
-        targetSdkVersion 23
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        targetSdkVersion 29
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     buildTypes {
@@ -63,26 +63,22 @@ android {
 
 dependencies {
     // the spinner
-    compile 'com.duchuyctlk.widget:spinner-lib:0.0.1'
-    // android support
-    compile 'com.android.support:support-v4:23.2.0'
-    // Butter Knife
-    compile 'com.jakewharton:butterknife:7.0.1'
+    api project(':spinner-lib')
     // Testing dependencies
-    testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support:support-annotations:23.2.0'
-    androidTestCompile 'com.android.support.test:runner:0.4.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.1'
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.1') {
+    testImplementation 'junit:junit:4.12'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.3.0'
+    androidTestImplementation('androidx.test.espresso:espresso-contrib:3.3.0') {
         exclude group: 'com.android.support', module: 'appcompat'
         exclude group: 'com.android.support', module: 'support-v4'
         exclude module: 'recyclerview-v7'
     }
-    androidTestCompile 'org.mockito:mockito-core:2.0.5-beta'
-    androidTestCompile 'com.crittercism.dexmaker:dexmaker:1.4'
-    androidTestCompile 'com.crittercism.dexmaker:dexmaker-dx:1.4'
-    androidTestCompile 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
+    androidTestImplementation 'org.mockito:mockito-core:2.0.5-beta'
+    androidTestImplementation 'com.crittercism.dexmaker:dexmaker:1.4'
+    androidTestImplementation 'com.crittercism.dexmaker:dexmaker-dx:1.4'
+    androidTestImplementation 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: ['connectedCheck', 'test']) {
@@ -106,9 +102,11 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['connectedCheck', 'test'])
     def debugTree = fileTree(dir: "${project.buildDir}/intermediates/classes/debug", excludes: fileFilter)
     def mainSrc = "${project.projectDir}/src/main/java"
 
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: project.projectDir, includes: ['**/*.exec', '**/*.ec'])
+    getSourceDirectories().setFrom(mainSrc)
+    getClassDirectories().setFrom(debugTree)
+
+    def appAndroidTests = fileTree(dir: project.projectDir, includes: ['**/*.exec', '**/*.ec'])
+    getExecutionData().setFrom(appAndroidTests)
 }
 
 tasks.coveralls {
