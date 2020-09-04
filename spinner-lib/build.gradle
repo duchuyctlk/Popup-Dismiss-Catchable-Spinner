@@ -14,7 +14,7 @@ ext {
     siteUrl = 'https://github.com/duchuyctlk/Popup-Dismiss-Catchable-Spinner'
     gitUrl = 'https://github.com/duchuyctlk/Popup-Dismiss-Catchable-Spinner.git'
 
-    libraryVersion = '0.0.2'
+    libraryVersion = '0.0.3'
 
     developerId = 'duchuyctlk'
     developerName = 'Nguyen Duc Huy'
