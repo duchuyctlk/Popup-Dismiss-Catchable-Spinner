@@ -90,6 +90,7 @@ public class MainActivityTest {
         }
     }
 
+    @Ignore("Will move to unit test")
     @Test
     public void handleExceptions() {
         MainActivity activity = mActivityRule.getActivity();
