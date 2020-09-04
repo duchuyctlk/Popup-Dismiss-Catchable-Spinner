@@ -11,7 +11,7 @@
     tools:context="com.duchuyctlk.MainActivity">
 
     <ToggleButton
-        android:id="@+id/btn_use_listener"
+        android:id="@+id/btnUseListener"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -37,7 +37,7 @@
                 android:text="@string/close_count" />
 
             <TextView
-                android:id="@+id/tv_count_dismiss"
+                android:id="@+id/tvDismissCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_label_close"
@@ -46,10 +46,10 @@
                 android:text="@string/number_0" />
 
             <com.duchuyctlk.widget.PopupDismissCatchableSpinner
-                android:id="@+id/spinner_dropdown"
+                android:id="@+id/spinnerDropdown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_count_dismiss"
+                android:layout_below="@id/tvDismissCount"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:entries="@array/country_arrays"
@@ -63,26 +63,26 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/tv_label_open"
+                android:id="@+id/tvLabelOpen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/open_count" />
 
             <TextView
-                android:id="@+id/tv_count_open"
+                android:id="@+id/tvOpenCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_label_open"
+                android:layout_below="@id/tvLabelOpen"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:text="@string/number_0" />
 
             <com.duchuyctlk.widget.PopupDismissCatchableSpinner
-                android:id="@+id/spinner_dialog"
+                android:id="@+id/spinnerDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_count_open"
+                android:layout_below="@id/tvOpenCount"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:entries="@array/country_arrays"
