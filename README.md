@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.duchuyctlk.widget:spinner-lib:0.0.3'
+    implementation 'com.duchuyctlk.widget:spinner-lib:0.0.3'
 }
 ```
 
